@@ -1,8 +1,9 @@
 /**
- * UNIVERSIDAD DE COSTA RICA
- * ESCUELA DE CIENCIAS DE LA COMPUTACION E INFORMATICA
- * LABORATORIO #3
- * CARLOS DELGADO ROJAS (B52368)
+ * Universidad de Costa Rica
+ * Escuela de Ciencias de la Computación e Informática
+ * CI-1310 Sistemas Operativos, Tarea programada 1
+ * @author Carlos Alberto Delgado Rojas
+ * @email carlos.delgadorojas@ucr.ac.cr
  */
 
 package com.company;
@@ -39,3 +40,9 @@ public class Translator {
         }
     }
 }
+
+/**
+ * Desarrollado con fines académicos.
+ * Uso, edición y distribución libres.
+ * 2017
+ **/
