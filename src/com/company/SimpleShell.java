@@ -23,39 +23,39 @@ public class SimpleShell {
 
             if (commandLine.equals("exit")){
                 break; //implements the exit command
-            }
-            try {
-                List<String> tokens = tr.divide_command(commandLine); //tokenized input
-                if (tokens.get(0).equals("cd")){
-                    if (tokens.get(1).equals("..")){
-                        directory = tr.get_parentDirectory(directory); //move to parent dir
+            } else if(commandLine.equals("cd")){
+                directory = System.getProperty("user.dir");//the simplest cd command
+            } else if (commandLine.equals("")){
+                continue;// if the user entered a return, just loop again
+            } else{
+                try {
+                    List<String> tokens = tr.divide_command(commandLine); //tokenized input
+                    //manage the "cd" command
+                    if (tokens.get(0).equals("cd")){
+                        if (tokens.get(1).equals("..")){//move to parent dir
+                            directory = tr.get_parentDirectory(directory);
+                        } else {//change to a new directory
+                            directory = directory.concat("/".concat(tokens.get(1))); //set the current directory
+                        }
+                        //manage the rest of the possibles comands
                     } else{
-                        directory = directory.concat("/".concat(tokens.get(1))); //set the current directory
+                        ProcessBuilder pb = new ProcessBuilder(tokens).directory(new File(directory));
+                        Process pr = pb.start();
+                        //to printing the output
+                        InputStreamReader isr = new InputStreamReader(pr.getInputStream());
+                        BufferedReader br = new BufferedReader(isr);
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            System.out.println(line);
+                        }
+                        pr.destroy();
                     }
-                } else{
-                    ProcessBuilder pb = new ProcessBuilder(tokens).directory(new File(directory));
-                    Process pr = pb.start();
-                    //to printing the output
-                    InputStreamReader isr = new InputStreamReader(pr.getInputStream());
-                    BufferedReader br = new BufferedReader(isr);
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        System.out.println(line);
-                    }
-                    pr.destroy();
+                } catch (Exception e) {
+                    System.out.println("Ocurrió un problema al ejecutar el comando");
+                    System.out.println("Para más información consulte:");
+                    System.out.println(e.getCause());
                 }
-            } catch (Exception e) {
-                System.out.println("Ocurrió un problema al ejecutar el comando");
-                System.out.println("Para más información consulte: "+ e);
             }
-            // if the user entered a return, just loop again
-            if (commandLine.equals("")) continue;
-            /** The steps are:
-             * (1) parse the input to obtain the command and any parameters
-             * (2) create a ProcessBuilder object
-             * (3) start the process
-             * (4) obtain the output stream
-             * (5) output the contents returned by the command */
         }
     }
 }
