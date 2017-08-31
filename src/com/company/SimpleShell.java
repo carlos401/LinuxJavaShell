@@ -8,9 +8,7 @@
 
 package com.company;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class SimpleShell {
     /**
@@ -20,7 +18,6 @@ public class SimpleShell {
         String commandLine; //to read console line
         BufferedReader console = new BufferedReader (new InputStreamReader(System.in));
 
-        Translator tr = new Translator(); //class that provides some functions
         String directory = System.getProperty("user.dir"); //to implement the "cd" command
         List<String> history = new ArrayList<>(10);//to manage history feature
 
@@ -46,18 +43,18 @@ public class SimpleShell {
                         break;
                     case "!!": //an specialization of history
                         if (!history.isEmpty()){
-                            execute_process(directory,tr.divide_command(history.get(history.size()-1)));
+                            execute_process(directory,divide_command(history.get(history.size()-1)));
                         } else {
                             System.out.println("Usted no introdujo ningún comando previamente");
                         }
                         break;
                     default:
-                        List<String> tokens = tr.divide_command(commandLine); //tokenized input
+                        List<String> tokens = divide_command(commandLine); //tokenized input
 
                         //manage the "cd" command with parameters
                         if (tokens.get(0).equals("cd")){
                             if (tokens.get(1).equals("..")){
-                                directory = tr.get_parentDirectory(directory);//move to parent dir
+                                directory = get_parentDirectory(directory);//move to parent dir
                             } else {//change to a new subdirectory
                                 if (new File(directory.concat("/".concat(tokens.get(1)))).exists()){
                                     directory = directory.concat("/".concat(tokens.get(1)));
@@ -124,16 +121,39 @@ public class SimpleShell {
      */
     private void print_history(List<String> history){
         Iterator<String> ite = history.iterator();
+        int i=1;
         while(ite.hasNext()){
-            int i=1;
             System.out.println(i+"- "+ite.next());//printing in console
             ++i;
         }
     }
+
+    /**
+     * function that divide the users commands into tokens
+     * @param comando the user command
+     * @return Vector that has the tokens
+     */
+    public List<String> divide_command(String comando){
+        StringTokenizer st = new StringTokenizer(comando," ");
+        List<String> comands = new LinkedList<>(); //this is the answered List
+        while (st.hasMoreElements()){
+            comands.add(st.nextToken()); //and adding the parameters
+        }
+        return comands;
+    }
+
+    public String get_parentDirectory (String currentDir){
+        StringTokenizer st = new StringTokenizer(currentDir,"/");
+        if (st.countTokens() == 1){
+            return currentDir; //do not exist parent directory
+        } else{
+            String result="";
+            while(st.countTokens() > 1){
+                result = result.concat("/".concat(st.nextToken()));
+            }
+            return result;
+        }
+    }
 }
 
-/**
- * Desarrollado con fines académicos.
- * Uso, edición y distribución libres.
- * 2017
- **/
+// Desarrollado con fines académicos. Uso, edición y distribución libres. 2017
