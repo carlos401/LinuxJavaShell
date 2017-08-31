@@ -49,21 +49,26 @@ public class SimpleShell {
                         }
                         break;
                     default:
-                        List<String> tokens = divide_command(commandLine); //tokenized input
+                        //the feature of history !x, tq x is a number of command
+                        if (commandLine.charAt(0)=='!' && ((commandLine.charAt(1)-'0')<=history.size())){
+                            execute_process(directory,divide_command(history.get((commandLine.charAt(1)-'0')-1)));
+                        } else{
+                            List<String> tokens = divide_command(commandLine); //tokenized input
 
-                        //manage the "cd" command with parameters
-                        if (tokens.get(0).equals("cd")){
-                            if (tokens.get(1).equals("..")){
-                                directory = get_parentDirectory(directory);//move to parent dir
-                            } else {//change to a new subdirectory
-                                if (new File(directory.concat("/".concat(tokens.get(1)))).exists()){
-                                    directory = directory.concat("/".concat(tokens.get(1)));
-                                } else{
-                                    System.out.println("El nombre del directorio es inválido");
+                            //manage the "cd" command with parameters
+                            if (tokens.get(0).equals("cd")){
+                                if (tokens.get(1).equals("..")){
+                                    directory = get_parentDirectory(directory);//move to parent dir
+                                } else {//change to a new subdirectory
+                                    if (new File(directory.concat("/".concat(tokens.get(1)))).exists()){
+                                        directory = directory.concat("/".concat(tokens.get(1)));
+                                    } else{
+                                        System.out.println("El nombre del directorio es inválido");
+                                    }
                                 }
+                            } else{ //manage the rest of possibles commands
+                                execute_process(directory,tokens);
                             }
-                        } else{ //manage the rest of possibles commands
-                            execute_process(directory,tokens);
                         }
                 }
             } catch (Exception e) {
@@ -105,11 +110,11 @@ public class SimpleShell {
      */
     private List<String> update_history(List<String> history, String commandLine){
         if (history.size()==10 && !(commandLine.equals("history")||
-                commandLine.equals("")||commandLine.equals("!!"))){
+                commandLine.equals("")||commandLine.charAt(0)=='!')){
             history.remove(0); //remove the oldest command saved
             history.add(commandLine); //insert the new command
         } else if (!(commandLine.equals("history")||commandLine.equals("")||
-                commandLine.equals("!!"))){
+                commandLine.charAt(0)=='!')){
             history.add(commandLine); //save the last command in the history
         }
         return history;
@@ -142,6 +147,11 @@ public class SimpleShell {
         return comands;
     }
 
+    /**
+     *
+     * @param currentDir
+     * @return
+     */
     public String get_parentDirectory (String currentDir){
         StringTokenizer st = new StringTokenizer(currentDir,"/");
         if (st.countTokens() == 1){

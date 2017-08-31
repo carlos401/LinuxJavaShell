@@ -13,11 +13,7 @@ public class Main {
     public static void main(String[] args) {
 	// write your code here
         SimpleShell shell = new SimpleShell();
-        try{
-            shell.start();
-        } catch (Exception e){
-            //Exception handle is on SimpleShell
-        }
+        shell.start(); //the exceptions are handle in the method
     }
 }
 
