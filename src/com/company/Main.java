@@ -16,9 +16,3 @@ public class Main {
         shell.start(); //the exceptions are handle in the method
     }
 }
-
-/**
-  * Desarrollado con fines académicos.
-  * Uso, edición y distribución libres.
-  * 2017
- **/

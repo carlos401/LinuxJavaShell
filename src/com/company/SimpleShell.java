@@ -32,6 +32,7 @@ public class SimpleShell {
 
                 switch (commandLine){
                     case "exit":
+                        System.out.println("Cerrando la consola...");
                         run = false; //implements the exit command
                     case "cd":
                         directory = System.getProperty("user.dir");//the simplest cd command
@@ -39,7 +40,11 @@ public class SimpleShell {
                     case "":
                         continue;// if the user entered a return, just loop again
                     case "history":
-                        print_history(history); //prints the last 10 commands
+                        if (!history.isEmpty()){
+                            print_history(history); //prints the last 10 commands
+                        } else{
+                            System.out.println("Usted no introdujo ningún comando previamente");
+                        }
                         break;
                     case "!!": //an specialization of history
                         if (!history.isEmpty()){
@@ -50,8 +55,15 @@ public class SimpleShell {
                         break;
                     default:
                         //the feature of history !x, tq x is a number of command
-                        if (commandLine.charAt(0)=='!' && ((commandLine.charAt(1)-'0')<=history.size())){
-                            execute_process(directory,divide_command(history.get((commandLine.charAt(1)-'0')-1)));
+                        if (commandLine.charAt(0)=='!'){
+                            if ((commandLine.charAt(1)-'0')<=history.size()){
+                                execute_process(directory,divide_command(history.get((commandLine.charAt(1)-'0')-1)));
+                            } else if(history.isEmpty()){
+                                System.out.println("Usted no introdujo ningún comando previamente");
+                            }
+                            else {
+                                System.out.println("No se encontró el "+(commandLine.charAt(1)-'0')+"-ésimo comando");
+                            }
                         } else{
                             List<String> tokens = divide_command(commandLine); //tokenized input
 
@@ -72,17 +84,17 @@ public class SimpleShell {
                         }
                 }
             } catch (Exception e) {
-                System.out.println("Ocurrió un problema al ejecutar el comando");
-                System.out.println("Para más información consulte:");
+                System.out.println("El comando introducido es inválido");
+                System.out.println("Para más información consulte el error:");
                 System.out.println(e.getCause());
             }
         }
     }
 
     /**
-     *
-     * @param directory
-     * @param tokens
+     * Allows create new processes using ProcessBuilder
+     * @param directory where execute the process
+     * @param tokens The list of commands and its parameters
      * @throws Exception
      */
     private void execute_process(String directory, List<String> tokens) throws Exception{
@@ -103,10 +115,10 @@ public class SimpleShell {
     }
 
     /**
-     *
-     * @param history
-     * @param commandLine
-     * @return
+     * Update the command history handling some exceptions
+     * @param history the current list of commands
+     * @param commandLine the last command introduced
+     * @return an updated list of commands
      */
     private List<String> update_history(List<String> history, String commandLine){
         if (history.size()==10 && !(commandLine.equals("history")||
@@ -121,8 +133,8 @@ public class SimpleShell {
     }
 
     /**
-     *
-     * @param history
+     * Prints in console the list of commands
+     * @param history the commands saved
      */
     private void print_history(List<String> history){
         Iterator<String> ite = history.iterator();
@@ -134,9 +146,9 @@ public class SimpleShell {
     }
 
     /**
-     * function that divide the users commands into tokens
+     * Function that divide the users commands into tokens
      * @param comando the user command
-     * @return Vector that has the tokens
+     * @return A list that has the tokens
      */
     public List<String> divide_command(String comando){
         StringTokenizer st = new StringTokenizer(comando," ");
@@ -148,9 +160,9 @@ public class SimpleShell {
     }
 
     /**
-     *
-     * @param currentDir
-     * @return
+     * Allows to know the name of the parent directory given a current
+     * @param currentDir the name of the current directory
+     * @return the name of the parent directory
      */
     public String get_parentDirectory (String currentDir){
         StringTokenizer st = new StringTokenizer(currentDir,"/");
@@ -165,5 +177,3 @@ public class SimpleShell {
         }
     }
 }
-
-// Desarrollado con fines académicos. Uso, edición y distribución libres. 2017
