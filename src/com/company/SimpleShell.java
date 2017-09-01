@@ -19,7 +19,7 @@ public class SimpleShell {
         BufferedReader console = new BufferedReader (new InputStreamReader(System.in));
 
         String directory = System.getProperty("user.dir"); //to implement the "cd" command
-        List<String> history = new ArrayList<>(10);//to manage history feature
+        List<String> history = new ArrayList<>();//to manage history feature
 
         Boolean run = true; //loop control
         while (run) {
@@ -121,11 +121,7 @@ public class SimpleShell {
      * @return an updated list of commands
      */
     private List<String> update_history(List<String> history, String commandLine){
-        if (history.size()==10 && !(commandLine.equals("history")||
-                commandLine.equals("")||commandLine.charAt(0)=='!')){
-            history.remove(0); //remove the oldest command saved
-            history.add(commandLine); //insert the new command
-        } else if (!(commandLine.equals("history")||commandLine.equals("")||
+        if (!(commandLine.equals("history")||commandLine.equals("")||
                 commandLine.charAt(0)=='!')){
             history.add(commandLine); //save the last command in the history
         }
