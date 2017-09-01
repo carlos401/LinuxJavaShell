@@ -20,9 +20,9 @@ This code is free. You can use, modify and distribute like you want.
 ## Run the executable
 
 ### Operating System
-I recommend the following operating systems:
+ I recommend the following operating systems:
 * Linux Fedora 26
-* Linux Ubuntu
+* Linux Ubuntu 17
 
 This app running under other OS are not supporting.
 
@@ -72,4 +72,4 @@ exit
 # Source code
 You can get the source code via:
 * The file called SRC-SS.zip
-* Using this github repository
+* Using this github repository <https://github.com/carlos401/LinuxJavaShell>
