@@ -23,11 +23,7 @@ This code is free. You can use, modify and distribute like you want.
 1. Check that you have received the file called SimpleShell.jar
 2. If you are reading this, you have README.md file too
 
----
-
 ## Run the executable
-
----
 
 ### Operating System
 I recommend the following operating systems:
@@ -36,14 +32,13 @@ I recommend the following operating systems:
 
 This app running under other OS are not supporting.
 
----
 ### Open the application
 1. Open the app called **Terminal**, and search the directory where you have the SimpleShell.jar
 2. Then, run the SimpleShell using the command: 
   ```
   java -jar SimpleShell.jar
   ```
----
+
 ### Application commands
 SimpleShell supports the major part of **standard commands** that you may use with the linux shell.
 Some of this are:
@@ -57,8 +52,8 @@ Also, the app includes **special commands** like:
   ```
   cd [directory]
   ```
-  The parameter *directory* may be optional:
-   * By default, changes the current working directory to the user’s home directory.
+  The parameter *directory* is the name of available directory, this may be optional:
+   * If you don't type a parameter, by default, changes the current working directory to the user’s home directory.
    * "..", changes the current working directory to the parent's directory.
 2. history: Prints out the contents of the history of commands that have been entered.
   ```
