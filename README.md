@@ -59,8 +59,8 @@ Also, the app includes **special commands** like:
     ```
     Where, the parameter *x* should be:
     
-    * "!", to print the last command
-    * n, to print the n-th command
+    * "!", to execute the last command
+    * n, to execute the n-th command
 ### Close the application
 To close the application, only type the command
 ```
