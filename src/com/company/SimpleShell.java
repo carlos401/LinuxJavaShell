@@ -56,13 +56,13 @@ public class SimpleShell {
                     default:
                         //the feature of history !x, tq x is a number of command
                         if (commandLine.charAt(0)=='!'){
-                            if ((commandLine.charAt(1)-'0')<=history.size()){
-                                execute_process(directory,divide_command(history.get((commandLine.charAt(1)-'0')-1)));
+                            if (Integer.parseInt(commandLine.substring(1))<=history.size()){
+                                execute_process(directory,divide_command(history.get((Integer.parseInt(commandLine.substring(1)))-1)));
                             } else if(history.isEmpty()){
                                 System.out.println("Usted no introdujo ningún comando previamente");
                             }
                             else {
-                                System.out.println("No se encontró el "+(commandLine.charAt(1)-'0')+"-ésimo comando");
+                                System.out.println("No se encontró el "+(Integer.parseInt(commandLine.substring(1)))+"-ésimo comando");
                             }
                         } else{
                             List<String> tokens = divide_command(commandLine); //tokenized input
